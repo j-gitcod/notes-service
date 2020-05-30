@@ -23,6 +23,7 @@ public class User implements Serializable {
 	private String email;
 
 	@Column(nullable=false)
+	@Length(min = 8, message = "Password must be at least 8 characters")
 	private String password;
 
 	@Column(nullable = false,columnDefinition = "TIMESTAMP")

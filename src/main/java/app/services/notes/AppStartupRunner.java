@@ -25,9 +25,9 @@ public class AppStartupRunner implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
 
-        User userOne = new User("userone@demo.com", "passone");
-        User userTwo = new User("usertwo@demo.com", "passtwo");
-        User userThree = new User("userthree@demo.com", "passthree");
+        User userOne = new User("userone@demo.com", "password1");
+        User userTwo = new User("usertwo@demo.com", "password2");
+        User userThree = new User("userthree@demo.com", "password3");
         Set<User> users = Set.of(userOne, userTwo, userThree);
 
         userRepo.deleteAll();
