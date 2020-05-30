@@ -1,6 +1,8 @@
 package app.services.notes;
 
+import app.services.notes.entity.Note;
 import app.services.notes.entity.User;
+import app.services.notes.repository.NotesRepository;
 import app.services.notes.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -16,6 +18,10 @@ public class AppStartupRunner implements ApplicationRunner {
     @Autowired
     UserRepository userRepo;
 
+    @Autowired
+    NotesRepository notesRepo;
+
+
     @Override
     public void run(ApplicationArguments args) throws Exception {
 
@@ -26,5 +32,12 @@ public class AppStartupRunner implements ApplicationRunner {
 
         userRepo.deleteAll();
         userRepo.saveAll(users);
+
+        Note noteOne = new Note("note title 1","note description 1",userOne);
+        Set<Note> notes = Set.of(noteOne);
+
+        notesRepo.deleteAll();
+        notesRepo.saveAll(notes);
+
     }
 }

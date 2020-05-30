@@ -34,6 +34,12 @@ public class Note implements Serializable {
 	@Column(nullable = true, columnDefinition = "TIMESTAMP")
 	private LocalDateTime updated;
 
+	public Note(String title, String description, User user) {
+		this.title = title;
+		this.description = description;
+		this.user = user;
+	}
+
 	@ManyToOne
 	@JoinColumn(name="email", nullable=false)
 	private User user;
