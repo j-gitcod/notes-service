@@ -1,8 +1,6 @@
 package app.services.notes.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.validator.constraints.Length;
 
@@ -12,7 +10,8 @@ import java.util.List;
 import javax.persistence.*;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "UserUser")
@@ -33,9 +32,6 @@ public class User implements Serializable {
 	@Column(nullable = true, columnDefinition = "TIMESTAMP")
 	private LocalDateTime updated;
 
-	@OneToMany(fetch=FetchType.LAZY, mappedBy="user")
-	private List<Note> notes;
-
 	public User(String email, String password) {
 		this.email = email;
 		this.password = password;
@@ -51,8 +47,4 @@ public class User implements Serializable {
 		this.updated = LocalDateTime.now();
 	}
 
-	@Override
-	public String toString() {
-		return "";
-	}
 }

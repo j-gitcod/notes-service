@@ -1,6 +1,6 @@
 package app.services.notes.service;
 
-import app.services.notes.model.User;
+import app.services.notes.objects.User;
 import app.services.notes.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

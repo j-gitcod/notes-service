@@ -1,6 +1,5 @@
-package app.services.notes.model;
+package app.services.notes.objects;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

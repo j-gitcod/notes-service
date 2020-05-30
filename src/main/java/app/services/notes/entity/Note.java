@@ -1,8 +1,7 @@
 package app.services.notes.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.Cascade;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -10,7 +9,8 @@ import java.time.LocalDateTime;
 import javax.persistence.*;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "Note")
@@ -40,7 +40,7 @@ public class Note implements Serializable {
 		this.user = user;
 	}
 
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.LAZY, cascade = CascadeType.DETACH)
 	@JoinColumn(name="email", nullable=false)
 	private User user;
 

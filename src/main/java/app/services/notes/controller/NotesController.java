@@ -13,10 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -46,10 +43,24 @@ public class NotesController {
 		String email = principal.getName();
 
 		User user = userRepository.findByEmail(email);
-
 		Iterable<Note> notesIterable = notesRepository.findByUser(user);
 		List<Note> notes = new ArrayList<>();
 		notesIterable.forEach(notes::add);
 		return notes;
 	}
+
+	@DeleteMapping("/notes/{id}")
+	public ResponseEntity<Integer> deleteNote(@PathVariable Integer id, Principal principal) {
+		String email = principal.getName();
+
+		User user = userRepository.findByEmail(email);
+		Note note = notesRepository.findById(id).orElse(null);
+		if (note != null && note.getUser().equals(user)) {
+			notesRepository.delete(note);
+			return new ResponseEntity<>(id, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+
 }
