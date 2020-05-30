@@ -14,7 +14,7 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "UserUser")
+@Table(name = "User")
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 

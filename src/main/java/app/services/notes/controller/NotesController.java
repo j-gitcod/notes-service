@@ -31,21 +31,24 @@ public class NotesController {
 
 	@PostMapping("/notes")
 	@ResponseStatus(HttpStatus.CREATED)
-	public @ResponseBody Note addNote(@RequestBody Note note, Principal principal) {
+	public @ResponseBody app.services.notes.objects.Note addNote(@RequestBody Note note, Principal principal) {
 		String email = principal.getName();
 		User user = userRepository.findByEmail(email);
 		note.setUser(user);
-		return  notesRepository.save(note);
+		note =  notesRepository.save(note);
+		return new app.services.notes.objects.Note(note.getId(),note.getTitle(),note.getDescription(),note.getCreated(),note.getUpdated());
 	}
 
 	@GetMapping("/notes")
-	public @ResponseBody List<Note> getNotesByUser(Principal principal) {
+	public @ResponseBody List<app.services.notes.objects.Note> getNotesByUser(Principal principal) {
 		String email = principal.getName();
 
 		User user = userRepository.findByEmail(email);
-		Iterable<Note> notesIterable = notesRepository.findByUser(user);
-		List<Note> notes = new ArrayList<>();
-		notesIterable.forEach(notes::add);
+		Iterable<Note> notesIterable = notesRepository.findNotesByEmail(email);
+		List<app.services.notes.objects.Note> notes = new ArrayList<>();
+		notesIterable.forEach(n -> {
+			notes.add(new app.services.notes.objects.Note(n.getId(),n.getTitle(),n.getDescription(),n.getCreated(),n.getUpdated()));
+		});
 		return notes;
 	}
 

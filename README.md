@@ -14,13 +14,7 @@ curl -i --user userone@demo.com:password1 http://localhost:8081/notes
      "title": "note title 1",
      "description": "note description 1",
      "created": "2020-05-29T23:34:01",
-     "updated": "2020-05-29T16:34:01",
-     "user": {
-       "email": "userone@demo.com",
-       "password": "password1",
-       "created": "2020-05-29T23:34:01",
-       "updated": "2020-05-29T16:34:01"
-     }
+     "updated": "2020-05-29T16:34:01"
    }
  ]`
  
@@ -34,14 +28,8 @@ curl -i --user userone@demo.com:password1 http://localhost:8081/notes
       "id" : 2,
       "title" : "second note",
       "description" : "second note description",
-      "user" : {
-         "email" : "userone@demo.com",
-         "password" : "password1",
-         "created" : "2020-05-29T23:34:01",
-         "updated" : "2020-05-29T16:34:01"
-      },
-      "updated" : null,
-      "created" : "2020-05-30T09:27:59.106827"
+      "created" : "2020-05-30T09:27:59.106827",
+      "updated" : null
    }`
 
 #### 3. delete a new note   
