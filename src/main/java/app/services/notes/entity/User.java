@@ -3,6 +3,7 @@ package app.services.notes.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.validator.constraints.Length;
 
 import java.io.Serializable;
@@ -14,7 +15,7 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "User")
+@Table(name = "UserUser")
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -34,6 +35,9 @@ public class User implements Serializable {
 
 	@OneToMany(fetch=FetchType.LAZY, mappedBy="user")
 	private List<Note> notes;
+
+	@OneToMany(fetch=FetchType.LAZY, mappedBy="user")
+	private List<Authority> authorities;
 
 	public User(String email, String password) {
 		this.email = email;
