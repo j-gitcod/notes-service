@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import javax.persistence.*;
 
 @Entity
@@ -26,7 +28,23 @@ public class Note implements Serializable {
 	@Column(length=1000)
 	private String description;
 
+	@Column(nullable = false,columnDefinition = "TIMESTAMP")
+	private LocalDateTime created;
+
+	@Column(nullable = true, columnDefinition = "TIMESTAMP")
+	private LocalDateTime updated;
+
 	@ManyToOne
 	@JoinColumn(name="email", nullable=false)
 	private User user;
+
+	@PrePersist
+	protected void prePersist() {
+		if (this.created == null) created = LocalDateTime.now();
+	}
+
+	@PreUpdate
+	protected void preUpdate() {
+		this.updated = LocalDateTime.now();
+	}
 }

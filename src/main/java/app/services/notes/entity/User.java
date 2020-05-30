@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.List;
 import javax.persistence.*;
 
@@ -24,7 +25,27 @@ public class User implements Serializable {
 	@Column(nullable=false)
 	private String password;
 
+	@Column(nullable = false,columnDefinition = "TIMESTAMP")
+	private LocalDateTime created;
+
+	@Column(nullable = true, columnDefinition = "TIMESTAMP")
+	private LocalDateTime updated;
+
 	@OneToMany(fetch=FetchType.LAZY, mappedBy="user")
 	private List<Note> notes;
 
+	public User(String email, String password) {
+		this.email = email;
+		this.password = password;
+	}
+
+	@PrePersist
+	protected void prePersist() {
+		if (this.created == null) created = LocalDateTime.now();
+	}
+
+	@PreUpdate
+	protected void preUpdate() {
+		this.updated = LocalDateTime.now();
+	}
 }
