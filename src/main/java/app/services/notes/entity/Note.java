@@ -40,7 +40,7 @@ public class Note implements Serializable {
 		this.user = user;
 	}
 
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="email", nullable=false)
 	private User user;
 

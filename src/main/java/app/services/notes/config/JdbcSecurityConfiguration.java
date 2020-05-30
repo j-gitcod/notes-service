@@ -1,5 +1,6 @@
 package app.services.notes.config;
 
+import app.services.notes.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
@@ -7,27 +8,22 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.sql.DataSource;
 
-//TODO: need to be worked out
-//@EnableWebSecurity
+@EnableWebSecurity
 public class JdbcSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private DataSource dataSource;
 
-    @Autowired
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-
-        auth.jdbcAuthentication()
-                .dataSource(dataSource)
-                .passwordEncoder(passwordEncoder())
-                .usersByUsernameQuery("SELECT email, password,true as enabled from user where email = ?")
-                .authoritiesByUsernameQuery("SELECT email,authority from authorities where email = ?");
-    }
+    @Bean
+    public UserDetailsService userDetailsService() {
+        return new UserDetailsServiceImpl();
+    };
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -35,11 +31,17 @@ public class JdbcSecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService()).passwordEncoder(passwordEncoder());
+    }
+
+    @Override
     protected void configure(HttpSecurity http) throws Exception {
 
         http.csrf().disable()
 		    .authorizeRequests()
-		      .antMatchers(HttpMethod.OPTIONS,"/**").permitAll()//allow CORS option calls
+		      .antMatchers(HttpMethod.OPTIONS,"/**").hasAnyRole()
+                .antMatchers().permitAll()//allow CORS option calls
 		      .anyRequest().authenticated()
 		    .and()
 		    .httpBasic()

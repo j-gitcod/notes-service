@@ -1,9 +1,7 @@
 package app.services.notes;
 
-import app.services.notes.entity.Authority;
 import app.services.notes.entity.Note;
 import app.services.notes.entity.User;
-import app.services.notes.repository.AuthorityRepository;
 import app.services.notes.repository.NotesRepository;
 import app.services.notes.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +24,6 @@ public class AppStartupRunner implements ApplicationRunner {
     @Autowired
     NotesRepository notesRepo;
 
-    @Autowired
-    AuthorityRepository authorityRepo;
-
     @Override
     public void run(ApplicationArguments args) throws Exception {
 
@@ -40,15 +35,6 @@ public class AppStartupRunner implements ApplicationRunner {
 
         userRepo.deleteAll();
         userRepo.saveAll(users);
-
-        Authority authority1 = new Authority("ROLE_USER",userOne);
-        Authority authority2 = new Authority("ROLE_USER", userTwo);
-        Authority authority3 = new Authority("ROLE_USER", userThree);
-
-        Set<Authority> authorities = Set.of(authority1, authority2, authority3);
-
-        authorityRepo.deleteAll();
-        authorityRepo.saveAll(authorities);
 
         Note noteOne = new Note("note title 1","note description 1",userOne);
         Set<Note> notes = Set.of(noteOne);

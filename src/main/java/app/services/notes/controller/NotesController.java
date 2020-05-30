@@ -34,23 +34,15 @@ public class NotesController {
 
 	@PostMapping("/notes")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Note addNote(@RequestBody Note note, Principal principal) {
+	public @ResponseBody Note addNote(@RequestBody Note note, Principal principal) {
 		String email = principal.getName();
 		User user = userRepository.findByEmail(email);
 		note.setUser(user);
 		return  notesRepository.save(note);
 	}
-//
-//	@GetMapping("/notes")
-//	public List<Note> getNotes() {
-//		Iterable<Note> notesIterable = notesRepository.findAll();
-//		List<Note> notes = new ArrayList<>();
-//		notesIterable.forEach(notes::add);
-//		return notes;
-//	}
 
-	@GetMapping("/user-notes")
-	public List<Note> getNotesByUser(Principal principal) {
+	@GetMapping("/notes")
+	public @ResponseBody List<Note> getNotesByUser(Principal principal) {
 		String email = principal.getName();
 
 		User user = userRepository.findByEmail(email);

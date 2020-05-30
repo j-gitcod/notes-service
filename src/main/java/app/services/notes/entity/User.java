@@ -36,9 +36,6 @@ public class User implements Serializable {
 	@OneToMany(fetch=FetchType.LAZY, mappedBy="user")
 	private List<Note> notes;
 
-	@OneToMany(fetch=FetchType.LAZY, mappedBy="user")
-	private List<Authority> authorities;
-
 	public User(String email, String password) {
 		this.email = email;
 		this.password = password;
@@ -52,5 +49,10 @@ public class User implements Serializable {
 	@PreUpdate
 	protected void preUpdate() {
 		this.updated = LocalDateTime.now();
+	}
+
+	@Override
+	public String toString() {
+		return "";
 	}
 }
